@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subir archivo Excel</title>
+</head>
+<body>
+    <h1>Subir archivo Excel</h1>
+    <form action="k.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="archivo_excel" accept=".xlsx">
+        <label for="hoja">Selecciona una hoja:</label>
+        <select name="hoja_numero" id="hoja_numero">
+            <option value="0">Hoja 1</option>
+            <option value="1">Hoja 2</option>
+            <option value="2">Hoja 3</option>
+            <option value="3">Hoja 4</option>
+            <option value="4">Hoja 5</option>
+            <option value="5">Hoja 6</option>
+            <option value="6">Hoja 7</option>
+            <option value="7">Hoja 8</option>
+            <option value="8">Hoja 9</option>
+            <option value="9">Hoja 10</option>
+            <option value="10">Hoja 11</option>
+            <option value="11">Hoja 12</option>
+        </select>
+        <input type="submit" value="Procesar">
+    </form>
+</body>
+</html>

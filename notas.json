@@ -1,0 +1,236 @@
+
+[
+        {   
+                "Lote":"3271MX5013",
+                "Codigo":"MX02097A",
+                "producto":"SH PALMOLIVE OPTIMS L4 60 ML",
+                "cajas": 276
+        },
+        {   
+                "Lote":"3271MX5033",
+                "Codigo":"MX02097A",
+                "producto":"SH PALMOLIVE OPTIMS L4 60 ML",
+                "cajas":193
+        },
+        {   
+                "Lote":"3277MX5013",
+                "Codigo":"MX02097A",
+                "producto":"SH PALMOLIVE OPTIMS L4 60 ML",
+                "cajas":313
+        },
+        {   
+                "Lote":"3277MX5033",
+                "Codigo":"MX02097A",
+                "producto":"SH PALMOLIVE OPTIMS L4 60 ML",
+                "cajas":35
+        },
+        {   
+                "Lote":"3272MX5013",
+                "Codigo":"MX02097A",
+                "producto":"SH PALMOLIVE OPTIMS L4 60 ML",
+                "cajas":184
+        },
+        {   
+                "Lote":"3275MX5033",
+                "Codigo":"MX02097A",
+                "producto":"SH PALMOLIVE OPTIMS L4 60 ML",
+                "cajas":313
+        }
+]
+
+[
+        {
+                "Codigo":"61018091",
+                "cajas":75,
+                "piezas":12
+        },
+        {
+                "Codigo":"61028421",
+                "cajas":30,
+                "piezas":4
+        },
+        {
+                "Codigo":"MX02796A",
+                "cajas":30,
+                "piezas":4
+        }
+]
+
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+// Arreglo resultante
+$arregloResultado = [];
+
+foreach ($arregloPrincipal as $elemento) {
+    // Busca el código correspondiente en el segundo arreglo
+    $codigo = $elemento["Codigo"];
+    $elementoSegundo = null;
+    
+    foreach ($arregloSegundo as $segundo) {
+        if ($segundo["Codigo"] === $codigo) {
+            $elementoSegundo = $segundo;
+            break;
+        }
+    }
+    
+    if ($elementoSegundo) {
+        // Realiza la multiplicación y crea un nuevo elemento para el resultado
+        $nuevoElemento = [
+            "Lote" => $elemento["Lote"],
+            "Codigo" => $elemento["Codigo"],
+            "producto" => $elemento["producto"],
+            "piezas" => $elemento["cajas"] * $elementoSegundo["piezas"],
+        ];
+        
+        $arregloResultado[] = $nuevoElemento;
+    }
+}
+
+
+
+
+
+
+                //BUSCAR PRIMERO LA UBICACION QUE CONINCIDA CON EL ARREGLO
+                foreach ($datos as $key => $dato) {
+                        foreach ($resultado as $resul) {
+                            if ($dato['Codigo'] === $resul['Codigo']) {   
+                                echo "<br>Datos: ".$dato['Codigo'].", Resul: ".$resul['Codigo'];
+                                break;
+                                //echo "".$datos[$key]['cajas']."".
+                                //echo "<br>Codigo: ".$resul['Codigo'].", Sus piezas son: ".$datos[$key]['piezas'];
+                            }
+                            
+                        }
+                        
+                    }
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+$numero_de_productos = 0;
+        foreach($datos as $contdor){
+            $numero_de_productos +=1;
+        }
+
+        foreach ($resultado as $elemento_remision) {
+            $codigo_remision = $elemento_remision["Codigo"];
+            $j=0;
+            echo"<br>";
+            var_dump($elemento_remision);
+            foreach($datos as $dato_BD){
+                /*echo"<br>";
+                var_dump($dato_BD);*/
+                echo "<br>".$codigo_BD = $dato_BD["Codigo"]/*." Se esta comparando con: ".$codigo_remision*/;
+                $j+=1;
+                //if ($codigo_remision === $codigo_BD){
+                //    
+                //    $nuevoElemento =[
+                //        "Lote" => strval($elemento_remision["Lotes"]),
+                //        "Codigo" => strval($elemento_remision["Codigo"]),
+                //        "producto" => strval($elemento_remision["Nombre"]),
+                //        "Cajas" => $elemento_remision["Cajas"],
+                //        "piezas" => $elemento_remision["Cajas"] * $dato_BD["piezas"],
+                //    ];
+                //    $arregloFiltrado [] = $nuevoElemento;
+                //}
+                if ($j === $numero_de_productos){
+                    break;
+                }
+            }
+        }
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+        //$contador = 0;
+        //
+        //foreach ($resultado as $elemento) {
+        //    // Incrementa el contador por cada elemento
+        //    $contador++;
+        //}
+        //$n = 1;
+        //foreach ($resultado as $elemento) {
+        //    // Busca el código correspondiente en el segundo arreglo
+        //    echo "<br> DATO No.".$n." ".$codigo = $elemento["Codigo"];
+        //    $elementoSegundo = null;
+        //    $n += 1;
+        //
+        //    foreach ($datos as $segundo) {
+        //        if ($segundo["Codigo"] === $codigo) {
+        //            $elementoSegundo = $segundo;
+        //            break;
+        //        }
+        //    }
+        //
+        //    if ($elementoSegundo) {
+        //        // Verifica si el elemento ya existe en el arreglo resultado
+        //        $existeEnResultado = false;
+        //        
+        //        foreach ($arregloResultado as $resultado) {
+        //            //$suma = ($elemento["cajas"] * $elementoSegundo["piezas"]);
+        //            if ($resultado["Codigo"] === $elemento["Codigo"] && $resultado["Lote"] === $elemento["Lotes"]) {
+        //                $existeEnResultado = True;
+        //                break;
+        //            }
+        //        }
+        //
+        //        // Si no existe en el resultado, entonces agrega el elemento
+        //        if ($existeEnResultado === False ) {
+        //            $nuevoElemento = [
+        //                "Lote" => $elemento["Lotes"],
+        //                "Codigo" => $elemento["Codigo"],
+        //                "producto" => $elemento["Nombre"],
+        //                "piezas" => $elemento["Cajas"] * $elementoSegundo["piezas"],
+        //            ];
+        //
+        //            $arregloResultado[] = $nuevoElemento;
+        //        }
+        //    }
+        //    if ($n === $contador){break;}
+        //}
+        //filtrado de arreglo resultado
+        // Utiliza array_unique para eliminar registros similares
+        //$arregloFiltrado = array_unique($arregloResultado, SORT_REGULAR);
+        // El arreglo $arregloFiltrado ahora contiene registros únicos sin duplicados
+        //print_r($resultado);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // Convierte el arreglo en una cadena JSON
+    //$json_data = json_encode($resultado);
+//
+    //// Ruta al archivo donde deseas guardar los datos en formato JSON
+    //$nombre_archivo = 'resultados.json';
+    //// Verificar si el archivo JSON existe
+    //if (!file_exists($nombre_archivo)) {
+    //    die('El archivo JSON no existe.');
+    //}
+    //// Guarda la cadena JSON en el archivo
+    //file_put_contents($nombre_archivo, $json_data);
+
+    //echo 'Arreglo guardado como JSON en ' . $nombre_archivo;
