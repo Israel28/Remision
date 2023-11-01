@@ -74,11 +74,11 @@ if (isset($_POST['submit'])) {
         /*****************************Metodo para sacar el numero de REMISION******************************************* */
         $hoja_seleccionada = intval($numero_seleccionado) - 1; // Índice de la hoja que deseas seleccionar
         $fila = 2; // Número de fila de la celda que deseas leer (comenzando desde 1)
-        $columna = 'G'; // Letra de la columna de la celda que deseas leer
+        $columna = 'E'; // Letra de la columna de la celda que deseas leer
 
         $hoja = $documento->getSheet($hoja_seleccionada); //guardamos solo la hoja seleccionada
         $hojaActiva = $documento->getActiveSheet();
-        $valor_Remision = $hoja->getCell($columna . $fila)->getValue();
+        $valor_Remision = $hoja->getCell($columna.$fila)->getValue();
 
         /************************************************************************ */
         $spreadsheet = IOFactory::load($inputFileName);
@@ -422,7 +422,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $Codigo = $iteracion['Codigo'];
                     $piezas = $iteracion['Piezas']; 
                     if($Codigo === $valor_Clave_Codigo && $Lote === $valor_Dato_Lote){
-                        echo '<br>'.
+                        //echo '<br>'.
                         $ubicacion_Celda = 'I'.$row;
                         $worksheet1->setCellValue("I$row", $piezas);
                         $bandera = True;
@@ -449,9 +449,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $worksheet1->setCellValue('K8', 'Hola mundo en Libro 1');
 
+            $ruta__excel = __DIR__;
+            //veriricamos si existe la carpeta del año
+            $carpetaAnio = "$ruta__excel/excel/$anio";
+            $carpetaAnio = crea_carp_anio($carpetaAnio);
+            $final_Excel = $carpetaAnio . '/' . 'Concentrado_Lotes.xlsx'; 
             // Guardar los cambios en un nuevo archivo Excel
             $writer1 = IOFactory::createWriter($spreadsheet1, 'Xlsx');
-            $writer1->save('excel/Concentrado_Lotes.xlsx');
+            $writer1->save($final_Excel);
         }
         //echo "Operación completada. Los cambios se han guardado en 'nuevo_libro_1.xlsx' y 'nuevo_libro_2.xlsx'.";
     } else {
@@ -485,7 +490,7 @@ echo "añio = ".$dato_anio."<br>";
 echo "mes = ".$dato_mes;
 $pdfContent = $dompdf->output();
 
-$nombrePDF = $hoja_seleccionada . '_' . $valor_Remision . '.pdf';
+echo $nombrePDF = $hoja_seleccionada . '_' . $valor_Remision . '.pdf';
 $finalPDF = $carpetaMeses . '/' . $nombrePDF; 
 //Guardar dentro del servidor
 file_put_contents($finalPDF, $pdfContent);
@@ -518,7 +523,7 @@ function crea_carp_anio($carpetaAnio){
         mkdir($carpetaAnio,0777);                  // Creamos la carpeta si no existe
         return True;
     }else{
-        echo '<br>ya existia la carpeta AÑIO';
+        //echo '<br>ya existia la carpeta AÑIO';
         $carpetaAnio = cambiarBarra($carpetaAnio);
         return $carpetaAnio;
     }
@@ -530,7 +535,7 @@ function crea_carp_mes($carpetaMeses){
         mkdir($carpetaMeses,0777);                  // Creamos la carpeta si no existe}
         return $carpetaMeses;
     }else{
-        echo '<br>ya existia la carpeta MES';
+        //echo '<br>ya existia la carpeta MES';
         $carpetaMeses = cambiarBarra($carpetaMeses);
         return $carpetaMeses;
     }
