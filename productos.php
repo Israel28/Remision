@@ -66,7 +66,6 @@ $datos = json_decode($data, true);
     <div>
         <ul>
           <li><a href="index.php" >Convertir PDF a Excel</a></li>
-          <li><a href="productos.php">Productos</a></li>
           <li><a href="modificacion_img.php">Subir imagenes</a></li>
           <li>    <a href="javascript:history.back()">Regresar a la página anterior</a></li>
           <lu>
