@@ -422,6 +422,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $ubicacion_Celda = 'I'.$row;
                         $worksheet1->setCellValue("I$row", $piezas);
                         $bandera = True;
+                    }else{
+                        
                     }
     
                 }
