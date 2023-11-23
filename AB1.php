@@ -126,10 +126,6 @@ if (isset($_POST['submit'])) {
             if ($numeroFila == 54){ //aqui se marca el limite de linea de donde se quiere llegar
                 break;
             }
-            if ($numeroFila == 5) { // Verificar si es la fila 5
-                $estiloFila5 = $hojaActiva->getStyle('A5:F5'); // Obtener el estilo de la fila 5
-                $estiloFila5->getFont()->setBold(true); // Aplicar negritas a la fila 5
-            }
 
             // Recorrer las celdas de cada fila
             foreach ($fila->getCellIterator() as $celda) {
