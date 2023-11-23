@@ -53,6 +53,8 @@ $data = json_decode($contenido, true);
             <li><a href="index.php" >Convertir PDF a Excel</a></li>
             <li><a href="productos.php">Productos</a></li>
             <li><a href="modificacion_img.php">Subir imagenes</a></li>
+            <li><a href="excel">Carpeta Lotes</a></li>
+            <li><a href="Concentrado_Remision">Carpeta de PDFs</a></li>
             <lu>
                 <li style="float:right; color: white; text-transform: uppercase; padding: 10px 16px;">
                     <p><?php include "inc/timezone.php"; ?>
