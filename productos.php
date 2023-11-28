@@ -84,15 +84,15 @@ $datos = json_decode($data, true);
         <tr>
             <td colspan="2">
                 <p>
-                    <label for="codigo">Código:</label>
+                    <label for="codigo">Código o Clave de <br>Producto:</label>
                     <input type="text" name="codigo" required><br>
                 </p>
                 <p>
-                    <label for="cajas">Cajas:  </label>
+                    <label for="cajas">Cajas x Tarima:  </label>
                     <input type="number" name="cajas" required><br>
                 </p>
                 <p>    
-                    <label for="piezas">Piezas:  </label>
+                    <label for="piezas">Piezas x Caja:  </label>
                     <input type="number" name="piezas" required><br>
                 </p>
             </td>
@@ -112,7 +112,7 @@ $datos = json_decode($data, true);
             <tr>
                 <td colspan="2">
                     <p>
-                        <label for="codigo">Código:</label>
+                        <label for="codigo">Código o Clave:</label>
                         <input type="text" name="codigo" required><br>
                     </p>
                 </td>
@@ -179,7 +179,7 @@ $datos = json_decode($data, true);
                             foreach ($datos as $key => $dato) {
                                 if ($dato['Codigo'] === $codigo) {
                                     
-                                    echo "Codigo: ".$dato['Codigo'].", Cajas: ".$dato['cajas'].", Piezas:".$dato['piezas'];
+                                    echo "Codigo: ".$dato['Codigo'].", <br>Cajas x Tarima: ".$dato['cajas'].", <br>Piezas x Caja:".$dato['piezas'];
                                     
                                 }
                             }

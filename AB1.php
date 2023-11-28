@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Style\Font;// para poner en engrita las palabras
 /******************************************************************************************************************* */
 
 $arregloPublico = [];
+$Lectura = [];
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANEJO DE LA IMAGENES  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -239,11 +240,12 @@ if (isset($_POST['submit'])) {
                     $Codigo_Producto = $hoja->getCell('A'.$fila_anterior)->getCalculatedValue();
 
                     $vacio = True;
-                    $valor_Colum_D = $hoja->getCell('D'.$fila_anterior)->getCalculatedValue();
+                    //echo
+                    $piezas = $hoja->getCell('D'.$fila_anterior)->getCalculatedValue();
                     //echo'<br>';
+                    //ECHO $columnaB.'<br>';
                     if ($columnaB !== null && $columnaB !== '') {
                         // Guardar "LOTE" y el valor de la columna B
-
                            // Verificar si la línea contiene una coma
                             if (strpos($columnaB, ',') !== false) {
                                 // Si hay comas, dividir la línea en partes utilizando la coma ","
@@ -262,7 +264,7 @@ if (isset($_POST['submit'])) {
                                     ];
                                 }
                             }else {
-
+                                //echo '<br>Los Lotes son: '.$columnaB.'<br>';
                                 // Agregar los datos al arreglo $arregloPublico
                                 $arregloPublico[] = [
                                     'Lote' => strval($columnaB),
@@ -277,7 +279,7 @@ if (isset($_POST['submit'])) {
                 }
             }
         }
-
+        //hacer un filtrado para sumar los Todos cajas de todos los Lotes similares   
         foreach ($arregloPublico as $registro) {
             $indice = null;
             // Busca en el resultado si ya existe un registro con el mismo 'Lotes' y 'Codigo'
@@ -307,7 +309,7 @@ if (isset($_POST['submit'])) {
             //echo "<br> - 'LOTE': {$datos['LOTE']}, Columna B: {$datos['ColumnaB']}";
             echo "VUELTA No. #".$contador;
             $contador +=1;
-            echo "<br> - Lote: {$datos['Lotes']}";
+            echo "<br> - Lote: {$datos['Lote']}";
             echo "<br> - Codigo: {$datos['Codigo']}";
             echo "<br> - Producto : {$datos['Producto']}";
             echo "<br> - Cajas: {$datos['Cajas']}";
@@ -358,14 +360,17 @@ $mar = 0;
 foreach ($resultado as &$elemento_remision) {
     //echo "<br>Resultados Codigo: ".
     $codigo_remision = $elemento_remision["Codigo"];
-    foreach ($datos as $dato_BD) {
-        //echo "<br>Datos Codigo: ".
-        $codigo_BD = $dato_BD["Codigo"];
-        $mar += 1;
-        if ($codigo_remision === $codigo_BD) {
-            // Realizar la multiplicación y actualizar las "Piezas" en $resultado
-            $elemento_remision["Piezas"] = intval($elemento_remision["Cajas"]) * intval($dato_BD["piezas"]);
-        }
+    $piezas = $elemento_remision["Piezas"];
+    if($piezas != 0){
+        foreach ($datos as $dato_BD) {
+            //echo "<br>Datos Codigo: ".
+            $codigo_BD = $dato_BD["Codigo"];
+            $mar += 1;
+            if ($codigo_remision === $codigo_BD) {
+                // Realizar la multiplicación y actualizar las "Piezas" en $resultado
+                $elemento_remision["Piezas"] = intval($elemento_remision["Cajas"]) * intval($dato_BD["piezas"]);
+            }
+        }               
     }
 }
 //imprimir el arreglo
@@ -383,10 +388,11 @@ foreach ($resultado as $datos) {
 }
 /*±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±± */
 /*±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±± */
-$bandera = False;
+$bandera = False;///*&& isset($_FILES['archivo_excel_2']) && isset($_POST['hoja_2'])*/
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_FILES['archivo_excel_1']) && isset($_POST['hoja_1']) /*&& isset($_FILES['archivo_excel_2']) && isset($_POST['hoja_2'])*/) {
+    if (isset($_FILES['archivo_excel_1']) && isset($_POST['hoja_1']) ) {
 
         // Procesar el primer libro de Excel (Libro 1)
         $archivoTmp1 = $_FILES['archivo_excel_1']['tmp_name'];
@@ -409,45 +415,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $highestRowB = $worksheet1->getHighestRow('B');
             $highestRowD = $worksheet1->getHighestRow('D');
             // $row cuenta con el numero de fila, asi que con un for se recorrera con todas la ""FILAS"" de las hoja seleccionada
-            for ($row = 1; $row <= max($highestRowB, $highestRowD); $row++) {
+            for ($row = 2; $row <= max($highestRowB, $highestRowD); $row++) {
                 $valor_Clave_Codigo = $worksheet1->getCell("B$row")->getValue();
-                $valor_Dato_Lote = $worksheet1->getCell("D$row")->getValue();
+                //$valor_Clave_Codigo = strval($valor_Clave_Codigo);
                 
-                foreach($resultado as $iteracion){
-                    $Lote = $iteracion['Lote']; 
-                    $Codigo = $iteracion['Codigo'];
-                    $piezas = $iteracion['Piezas']; 
-                    if($Codigo === $valor_Clave_Codigo && $Lote === $valor_Dato_Lote){
-                        //echo '<br>'.
-                        $ubicacion_Celda = 'I'.$row;
-                        $worksheet1->setCellValue("I$row", $piezas);
-                        $bandera = True;
-                    }else{
-                        
-                    }
-    
-                }
-                /*echo "Valor en B$row: $valorColumnaB<br>";
-                echo "Valor en D$row: $valorColumnaD<br>";
-                if ($valorColumnaB === $valorColumnaD) {
-                    $worksheet1->setCellValue("H$row", 'Es el mismo dato');
-                }*/
+                $dato_lote = $worksheet1->getCell("D$row")->getValue();
+                //$dato_lote = strval($dato_lote);
+                
+                $Lectura[] =[
+                    'Ubicacion' => strval('I'.$row),
+                    'Clave' => strval($valor_Clave_Codigo),
+                    'Lote' => strval($dato_lote),
+
+                ];
             }
-            /*if ($bandera === False){
-                echo '
-                            <script>
-                            alert("Este es un mensaje de alerta.");
-                            </script>
-                        ';
-            }*/
+            foreach($Lectura as $iteracion){
+                $Ubicacion = $iteracion['Ubicacion']; 
+                $Clave_E2 = $iteracion['Clave']; 
+                $Lote_E2 = $iteracion['Lote']; 
+                foreach($resultado as $iteracion){
+                    $Lote_E1 = $iteracion['Lote']; 
+                    $Codigo_E1 = $iteracion['Codigo'];
+                    echo '<br>'.
+                    $piezas = $iteracion['Piezas'];
+                    if($Lote_E1 === $Lote_E2 && $Codigo_E1 === $Clave_E2){
+                        echo '<br>'.$Lote_E1.' '.$Lote_E2;
+                        $worksheet1->setCellValue($Ubicacion, $piezas);
 
-
+                    }
+                }
+            }
             /************************************************************************************************************************************************** */
             /************************************************************************************************************************************************** */
 
-            $worksheet1->setCellValue('K8', 'Hola mundo en Libro 1');
+            //$worksheet1->setCellValue('K8', 'Hola mundo en Libro 1');
 
             $ruta__excel = __DIR__;
+            //C:\xampp\htdocs\Remision\excel
             //veriricamos si existe la carpeta del año
             $carpetaAnio = "$ruta__excel/excel/$anio";
             $carpetaAnio = crea_carp_anio($carpetaAnio);
@@ -456,7 +460,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $writer1 = IOFactory::createWriter($spreadsheet1, 'Xlsx');
             $writer1->save($final_Excel);
         }
-        //echo "Operación completada. Los cambios se han guardado en 'nuevo_libro_1.xlsx' y 'nuevo_libro_2.xlsx'.";
     } else {
         echo "Por favor, sube archivos Excel y selecciona hojas para ambos libros.";
     }
@@ -471,12 +474,12 @@ use Dompdf\Dompdf;
 $ruta =__DIR__;
 //$ruta ='D:\Cadena de suministro';
 
-// Crear una instancia de Dompdf
+// //Crear una instancia de Dompdf
 $dompdf = new Dompdf();
 $dompdf->loadHtml($html);
 $dompdf->setPaper('letter');
 $dompdf->render();
-$dompdf->stream('prueba.pdf', ['Attachment' => FALSE]);//el TRUE hace que lo descargue y FALSE que lo visualices en el navegador     
+$dompdf->stream('Remision.pdf', ['Attachment' => FALSE]);//el TRUE hace que lo descargue y FALSE que lo visualices en el navegador     
 
 //veriricamos si existe la carpeta del año
 $carpetaAnio = "$ruta/Concentrado_Remision/$anio";
@@ -484,16 +487,19 @@ $carpetaMeses  = "$ruta/Concentrado_Remision/$anio/$mes";
 // Guardar el archivo PDF generado
 $carpetaAnio = crea_carp_anio($carpetaAnio);
 $carpetaMeses = crea_carp_mes($carpetaMeses);
-echo "añio = ".$dato_anio."<br>";
-echo "mes = ".$dato_mes;
+//echo "añio = ".$dato_anio."<br>";
+//echo "mes = ".$dato_mes;
 $pdfContent = $dompdf->output();
 
-echo $nombrePDF = $hoja_seleccionada . '_' . $valor_Remision . '.pdf';
+//echo 
+$nombrePDF = $hoja_seleccionada . '_' . $valor_Remision . '.pdf';
 $finalPDF = $carpetaMeses . '/' . $nombrePDF; 
 //Guardar dentro del servidor
 file_put_contents($finalPDF, $pdfContent);
+
+
 //Mandar el archivo al Usuario
-$dompdf->stream('Remision_.pdf', ['Attachment' => False]);//el TRUE hace que lo descargue y FALSE que lo visualices en el navegador     
+//$dompdf->stream('Remision_.pdf', ['Attachment' => False]);//el TRUE hace que lo descargue y FALSE que lo visualices en el navegador     
 
 /*----------------------------------------------------------------------------------------------------------------------------------------- */
 /*--------------------------------------------------------FUNCIONES ADICIONALES------------------------------------------------------------ */

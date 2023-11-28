@@ -109,10 +109,10 @@ h2 {
 }
 @media (min-width: 700px) {
   h2 {
-    font-size: 9vw;
+    font-size: 2vw;
   }
 }
-@media (min-width: 1400px) {
+@media (min-width: 1500px) {
   h2 {
     font-size: 150px;
   }
@@ -121,7 +121,7 @@ h2 {
 @supports (-webkit-background-clip: text) {
   h2 {
     color: transparent;
-    background: linear-gradient(7deg, #F5EE9E 50%, #F49E4C 0);
+    background: linear-gradient(3deg, #F5EE9E 50%, #F49E4C 0);
     -webkit-background-clip: text;
   }
 }
